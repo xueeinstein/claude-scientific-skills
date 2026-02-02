@@ -2637,6 +2637,62 @@ Expected Output:
 
 ---
 
+
+---
+
+## Proteomics & Enzyme Analysis
+
+### Example 21: Peptidase Specificity Analysis and Cleavage Site Prediction
+
+**Objective**: Determine the cleavage specificity of a protease from literature and map cleavage sites on a target protein.
+
+**Skills Used**:
+- `peptidase-cleavage-analysis` - Literature review and prediction
+- `uniprot-database` - Protein sequence retrieval
+- `alphafold-database` - Structural context
+- `scientific-visualization` - Visualizing cleavage map
+
+**Workflow**:
+
+```bash
+Step 1: Retrieve target protein sequence
+- Use UniProt skill to get the sequence of the substrate (e.g., "P53_HUMAN")
+- Save sequence to FASTA format
+
+Step 2: Authenticate and configure Perplexity
+- Ensure OpenRouter API key is set for literature search capability
+- This enables dynamic specificity discovery for less common enzymes
+
+Step 3: Analyze peptidase specificity from literature
+- Run peptidase-cleavage-analysis in literature_only mode
+- Query: "What is the cleavage site specificity of Caspase-3?"
+- Extract consensus pattern (e.g., "D-x-x-D | x")
+- Convert to Regex pattern (e.g., "(?<=[D]..[D])")
+
+Step 4: Predict cleavage sites
+- Run analysis with the discovered pattern on target sequence
+- Command:
+  python scientific-skills/peptidase-cleavage-analysis/scripts/analyze_peptidase.py \
+    --peptidase "Caspase-3" \
+    --sequence "MEEPQSDPSVEPPLSQETFSDLWKLLP..." \
+    --mode full
+- Identify all potential P1-P1' sites
+- Generate list of resulting peptide fragments
+
+Step 5: Structural context analysis (Optional)
+- Retrieve AlphaFold structure for target
+- Map cleavage sites to 3D structure
+- Determine if sites are surface-accessible (solvent exposed)
+- Filter out buried sites that are unlikely to be cleaved
+
+Step 6: Generate cleavage report
+- List all predicted sites with position and context
+- Summarize specificity rules found in literature
+- Provide fragment mass list for Mass Spec verification
+```
+
+---
+
 ## Summary
 
 These examples demonstrate:
